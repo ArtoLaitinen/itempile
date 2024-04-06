@@ -1,0 +1,4 @@
+GET http://localhost:{{port}}/health
+
+###
+@port = 5000
