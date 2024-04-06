@@ -18,6 +18,6 @@ CREATE TABLE IF NOT EXISTS `items` (
   `owner_id` varchar(36) NOT NULL,
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
   FOREIGN KEY (`owner_id`) REFERENCES `users`(`id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = latin1;
