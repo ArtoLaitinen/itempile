@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 const mysql = require('mysql2/promise');
 require('dotenv').config();
 
