@@ -1,4 +1,24 @@
+@port = 5000
+
+###
 GET http://localhost:{{port}}/health
 
 ###
-@port = 5000
+POST http://localhost:{{port}}/api/users/signup
+Content-Type: application/json
+
+{
+    "name": "Tester",
+    "email": "test@email.com",
+    "password": "good_password"
+}
+
+###
+
+POST http://localhost:{{port}}/api/users/login
+Content-Type: application/json
+
+{
+    "email": "test@email.com",
+    "password": "good_password"
+}

@@ -12,6 +12,7 @@
   "plugins": ["jest"],
   "rules": {
       "import/extensions": ["error", "ignorePackages"],
-      "no-console": 0
+      "no-console": 0,
+      "import/no-extraneous-dependencies": 0
   }
 }
