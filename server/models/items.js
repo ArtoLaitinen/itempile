@@ -59,6 +59,18 @@ const items = {
       throw new Error(error);
     }
   },
+
+  updateItem: async (id, updatedValues) => {
+    try {
+      const updateQuery = 'UPDATE `items` SET ? WHERE id = ?';
+      const connection = await pool.getConnection();
+      const [results] = await connection.query(updateQuery, [updatedValues, id]);
+      connection.release();
+      return results;
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
 };
 
 module.exports = items;
