@@ -1,4 +1,14 @@
+const Joi = require('joi');
 const items = require('../models/items.js');
+
+const itemSchema = Joi.object({
+  title: Joi.string().required().min(1),
+  description: Joi.string().required().min(5),
+  image: Joi.string().required().min(1),
+  category: Joi.string().required().min(3),
+  price: Joi.string().required().min(1),
+  owner_id: Joi.string().uuid(),
+});
 
 const getItems = async (req, res) => {
   try {
@@ -45,8 +55,40 @@ const getItemsByUserId = async (req, res) => {
   }
 };
 
+const createItem = async (req, res) => {
+  try {
+    const { error: validateError } = itemSchema.validate(req.body);
+
+    if (validateError) {
+      return res.status(400).json({ message: validateError.details[0].message });
+    }
+
+    const item = {
+      title: req.body.title,
+      description: req.body.description,
+      image: req.body.image,
+      category: req.body.category,
+      price: req.body.price,
+      owner_id: req.body.owner_id,
+    };
+
+    const response = await items.createNewItem(item);
+
+    if (response.affectedRows === 1) {
+      const id = response.insertId;
+      const addedItem = await items.findItemById(id);
+      return res.json(addedItem[0]);
+    }
+
+    return res.status(500).json({ message: 'Couldnt add the item' });
+  } catch (error) {
+    return res.status(500).json({ message: 'Something went wrong' });
+  }
+};
+
 module.exports = {
   getItems,
   getItemById,
   getItemsByUserId,
+  createItem,
 };
