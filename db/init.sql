@@ -8,6 +8,9 @@ CREATE TABLE IF NOT EXISTS `users` (
   PRIMARY KEY(`id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = latin1;
 
+INSERT INTO users (id, name, email, password_hash) VALUES
+    ('666', 'dev', 'dev@gmail.com', 'hash');
+
 CREATE TABLE IF NOT EXISTS `items` (
   `id` int(15) NOT NULL AUTO_INCREMENT,
   `title` varchar(60) NOT NULL,
@@ -21,3 +24,7 @@ CREATE TABLE IF NOT EXISTS `items` (
   PRIMARY KEY (`id`),
   FOREIGN KEY (`owner_id`) REFERENCES `users`(`id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = latin1;
+
+INSERT INTO items (title, description, image, category, price, owner_id) VALUES
+    ('test1', 'test desc', 'test image', 'test category', '123', '666'),
+    ('test2', 'test desc', 'test image', 'test category', '123', '666');
