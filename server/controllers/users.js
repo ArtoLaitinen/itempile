@@ -11,6 +11,11 @@ const userSignUpSchema = Joi.object({
   password: Joi.string().required().min(8),
 });
 
+const userLoginSchema = Joi.object({
+  email: Joi.string().min(1).required(),
+  password: Joi.string().min(1).required(),
+});
+
 const signUpUser = async (req, res) => {
   const { name, email, password } = req.body;
 
@@ -71,6 +76,54 @@ const signUpUser = async (req, res) => {
   }
 };
 
+const loginUser = async (req, res) => {
+  const { email, password } = req.body;
+
+  const { error: validateError } = userLoginSchema.validate(req.body);
+  if (validateError) {
+    return res.status(400).json({ message: validateError.details[0].message });
+  }
+
+  let identifiedUser;
+  try {
+    const result = await users.findByEmail(email);
+    if (!result[0]) {
+      return res.status(401).json({ message: 'Could not identify user, credentials might be wrong' });
+    }
+    [identifiedUser] = result;
+  } catch (error) {
+    return res.status(500).json({ message: 'Something went wrong' });
+  }
+
+  try {
+    const valid = await bcrypt.compare(password, identifiedUser.password_hash);
+    if (!valid) {
+      return res.status(401).json({ message: 'Could not identify user, credentials might be wrong' });
+    }
+
+    const token = jwt.sign(
+      {
+        id: identifiedUser.id,
+        email: identifiedUser.email,
+      },
+      process.env.JWT_KEY,
+      { expiresIn: '1h' },
+    );
+
+    return res.status(201).json(
+      {
+        id: identifiedUser.id,
+        name: identifiedUser.name,
+        email: identifiedUser.email,
+        token,
+      },
+    );
+  } catch (error) {
+    return res.status(500).json({ message: 'Something went wrong with user login' });
+  }
+};
+
 module.exports = {
+  loginUser,
   signUpUser,
 };
