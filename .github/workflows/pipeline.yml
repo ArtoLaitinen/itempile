@@ -31,6 +31,27 @@ jobs:
         working-directory: ./server
         run: npm run lint
 
+      - name: Install MySQL server
+        uses: shogo82148/actions-setup-mysql@v1.31.0
+        with:
+          mysql-version: "8.0"
+          auto-start: true
+
+      - name: Configure the MySQL server
+        run: |
+          mysql -u root -h 127.0.0.1 -e 'SELECT version()'
+          mysql -h 127.0.0.1 -P 3306 -u root -e 'CREATE DATABASE test_db;'
+          mysql -h 127.0.0.1 -P 3306 -u root -e 'SHOW DATABASES;'
+          mysql -h 127.0.0.1 -P 3306 -u root -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';"
+          mysql -h 127.0.0.1 -P 3306 -u root -e 'FLUSH PRIVILEGES' -ppassword
+
+      - name: Seed the database
+        working-directory: ./db
+        run: mysql -h 127.0.0.1 -P3306 -u root -ppassword test_db < init.sql
+
+      - name: Create testing .env file from secret
+        run: echo "${{ secrets.ENV_FILE_TEST }}" > ./backend/.env
+
       - name: Run the server tests
         working-directory: ./server
         run: npm test
