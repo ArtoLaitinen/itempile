@@ -1,4 +1,5 @@
 @port = 5000
+@authToken = {{login.response.body.token}}
 
 ###
 GET http://localhost:{{port}}/health
@@ -14,7 +15,7 @@ Content-Type: application/json
 }
 
 ###
-
+# @name login
 POST http://localhost:{{port}}/api/users/login
 Content-Type: application/json
 
@@ -22,3 +23,46 @@ Content-Type: application/json
     "email": "test@email.com",
     "password": "good_password"
 }
+
+###
+GET http://localhost:{{port}}/api/items
+
+###
+GET http://localhost:{{port}}/api/items/2
+
+###
+GET http://localhost:{{port}}/api/items/user/2bfd3e62-6fd4-48bf-be7e-f694f880b10e
+Authorization: BEARER {{authToken}}
+
+###
+POST http://localhost:{{port}}/api/items
+Content-Type: application/json
+Authorization: BEARER {{authToken}}
+
+{
+    "title": "test item 1",
+    "description": "test item 1 description",
+    "image": "image.jpg",
+    "category": "test category",
+    "price": "20",
+    "owner_id": "2bfd3e62-6fd4-48bf-be7e-f694f880b10e"
+}
+
+###
+PUT http://localhost:{{port}}/api/items/2
+Content-Type: application/json
+Authorization: BEARER {{authToken}}
+
+{
+    "title": "new test item 2",
+    "description": "new descrition",
+    "image": "image.jpg",
+    "category": "test category",
+    "price": "20"
+}
+
+###
+DELETE http://localhost:{{port}}/api/items/8
+Authorization: BEARER {{authToken}}
+
+###
