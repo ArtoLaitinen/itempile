@@ -30,3 +30,7 @@ jobs:
       - name: Run Lint on Server
         working-directory: ./server
         run: npm run lint
+
+      - name: Run the server tests
+        working-directory: ./server
+        run: npm test
