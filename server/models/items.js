@@ -47,6 +47,18 @@ const items = {
       throw new Error(error);
     }
   },
+
+  createNewItem: async (item) => {
+    try {
+      const insertQuery = 'INSERT INTO `items` SET ?';
+      const connection = await pool.getConnection();
+      const [results] = await connection.query(insertQuery, [item]);
+      connection.release();
+      return results;
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
 };
 
 module.exports = items;
