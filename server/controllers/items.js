@@ -128,10 +128,25 @@ const updateItem = async (req, res) => {
   }
 };
 
+const deleteItem = async (req, res) => {
+  try {
+    const id = parseInt(req.params.id, 10);
+    const response = await items.deleteItem(id);
+
+    if (response.affectedRows === 1) {
+      return res.json({ message: 'Item deleted successfully' });
+    }
+    return res.status(404).json({ message: 'Item not found' });
+  } catch (error) {
+    return res.status(500).json({ message: 'Something went wrong' });
+  }
+};
+
 module.exports = {
   getItems,
   getItemById,
   getItemsByUserId,
   createItem,
   updateItem,
+  deleteItem,
 };
