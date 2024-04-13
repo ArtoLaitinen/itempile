@@ -22,3 +22,8 @@ Content-Type: application/json
     "email": "test@email.com",
     "password": "good_password"
 }
+
+###
+GET http://localhost:{{port}}/api/items
+
+###
