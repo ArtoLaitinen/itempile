@@ -14,3 +14,11 @@ Content-Type: application/json
 }
 
 ###
+
+POST http://localhost:{{port}}/api/users/login
+Content-Type: application/json
+
+{
+    "email": "test@email.com",
+    "password": "good_password"
+}
