@@ -46,3 +46,15 @@ Content-Type: application/json
 }
 
 ###
+PUT http://localhost:{{port}}/api/items/2
+Content-Type: application/json
+
+{
+    "title": "new test item 2",
+    "description": "new descrition",
+    "image": "image.jpg",
+    "category": "test category",
+    "price": "20"
+}
+
+###
