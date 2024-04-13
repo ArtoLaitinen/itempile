@@ -58,3 +58,6 @@ Content-Type: application/json
 }
 
 ###
+DELETE http://localhost:{{port}}/api/items/1
+
+###
