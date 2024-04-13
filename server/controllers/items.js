@@ -29,7 +29,24 @@ const getItemById = async (req, res) => {
   }
 };
 
+const getItemsByUserId = async (req, res) => {
+  try {
+    const userId = parseInt(req.params.userId, 10);
+
+    const response = await items.findItemsByUserId(userId);
+
+    if (response.length === 0) {
+      return res.status(404).json({ message: 'Items not found' });
+    }
+
+    return res.json(response);
+  } catch (error) {
+    return res.status(500).json({ message: 'Something went wrong' });
+  }
+};
+
 module.exports = {
   getItems,
   getItemById,
+  getItemsByUserId,
 };
