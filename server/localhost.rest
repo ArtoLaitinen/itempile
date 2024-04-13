@@ -30,6 +30,6 @@ GET http://localhost:{{port}}/api/items
 GET http://localhost:{{port}}/api/items/2
 
 ###
-GET http://localhost:{{port}}/api/items/user/66
+GET http://localhost:{{port}}/api/items/user/2bfd3e62-6fd4-48bf-be7e-f694f880b10e
 
 ###

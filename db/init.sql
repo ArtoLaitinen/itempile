@@ -9,8 +9,8 @@ CREATE TABLE IF NOT EXISTS `users` (
 ) ENGINE = InnoDB DEFAULT CHARSET = latin1;
 
 INSERT INTO users (id, name, email, password_hash) VALUES
-    ('666', 'dev1', 'dev@gmail.com', 'hash'),
-    ('667', 'dev2', 'dev@gmail.com', 'hash');
+    ('2bfd3e62-6fd4-48bf-be7e-f694f880b10e', 'dev1', 'dev@gmail.com', 'hash'),
+    ('6eb7a265-d3c1-4780-88cd-54ea3bc7ab59', 'dev2', 'dev@gmail.com', 'hash');
 
 CREATE TABLE IF NOT EXISTS `items` (
   `id` int(15) NOT NULL AUTO_INCREMENT,
@@ -27,5 +27,5 @@ CREATE TABLE IF NOT EXISTS `items` (
 ) ENGINE = InnoDB DEFAULT CHARSET = latin1;
 
 INSERT INTO items (title, description, image, category, price, owner_id) VALUES
-    ('test1', 'test desc', 'test image', 'test category', '123', '666'),
-    ('test2', 'test desc', 'test image', 'test category', '123', '667');
+    ('test1', 'test desc', 'test image', 'test category', '123', '2bfd3e62-6fd4-48bf-be7e-f694f880b10e'),
+    ('test2', 'test desc', 'test image', 'test category', '123', '6eb7a265-d3c1-4780-88cd-54ea3bc7ab59');
