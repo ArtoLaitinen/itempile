@@ -32,6 +32,7 @@ describe('Users', () => {
       expect(response.status).toEqual(201);
       expect(response.headers['content-type']).toMatch(/json/);
       expect(response.body.id).toBeTruthy();
+      expect(response.body.name).toEqual('test-user');
       expect(response.body.email).toEqual('test-user@email.com');
       expect(response.body.token).toBeTruthy();
     });
