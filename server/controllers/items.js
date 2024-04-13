@@ -10,6 +10,14 @@ const itemSchema = Joi.object({
   owner_id: Joi.string().uuid(),
 });
 
+const putItemSchema = Joi.object({
+  title: Joi.string().min(1),
+  description: Joi.string().min(5),
+  image: Joi.string().min(1),
+  category: Joi.string().min(3),
+  price: Joi.string().min(1),
+});
+
 const getItems = async (req, res) => {
   try {
     const response = await items.findItems();
@@ -86,9 +94,44 @@ const createItem = async (req, res) => {
   }
 };
 
+const updateItem = async (req, res) => {
+  try {
+    const { error: validateError } = putItemSchema.validate(req.body);
+
+    if (validateError) {
+      return res.status(400).json({ message: validateError.details[0].message });
+    }
+
+    const id = parseInt(req.params.id, 10);
+
+    const updatedValues = {
+      title: req.body.title,
+      description: req.body.description,
+      image: req.body.image,
+      category: req.body.category,
+      price: req.body.price,
+    };
+
+    // Removing all keys that are null so everything that wasnt specified in the given put request
+    Object.keys(updatedValues)
+      .forEach((key) => updatedValues[key] == null && delete updatedValues[key]);
+
+    const response = await items.updateItem(id, updatedValues);
+
+    if (response.affectedRows === 1) {
+      const updatedMenuitem = await items.findItemById(id);
+      return res.json(updatedMenuitem[0]);
+    }
+    return res.status(404).json({ message: 'Item not found' });
+  } catch (error) {
+    return res.status(500).json({ message: 'Something went wrong' });
+  }
+};
+
 module.exports = {
   getItems,
   getItemById,
   getItemsByUserId,
   createItem,
+  updateItem,
 };
