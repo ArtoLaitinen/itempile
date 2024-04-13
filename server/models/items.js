@@ -71,6 +71,18 @@ const items = {
       throw new Error(error);
     }
   },
+
+  deleteItem: async (id) => {
+    try {
+      const deleteQuery = 'DELETE FROM `items` WHERE id = ?';
+      const connection = await pool.getConnection();
+      const [results] = await connection.query(deleteQuery, [id]);
+      connection.release();
+      return results;
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
 };
 
 module.exports = items;
