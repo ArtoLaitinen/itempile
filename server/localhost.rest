@@ -33,3 +33,16 @@ GET http://localhost:{{port}}/api/items/2
 GET http://localhost:{{port}}/api/items/user/2bfd3e62-6fd4-48bf-be7e-f694f880b10e
 
 ###
+POST http://localhost:{{port}}/api/items
+Content-Type: application/json
+
+{
+    "title": "test item 1",
+    "description": "test item 1 description",
+    "image": "image.jpg",
+    "category": "test category",
+    "price": "20",
+    "owner_id": "2bfd3e62-6fd4-48bf-be7e-f694f880b10e"
+}
+
+###
