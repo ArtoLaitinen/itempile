@@ -1,6 +1,6 @@
 const express = require('express');
 const {
-  getItems, getItemById, getItemsByUserId, createItem,
+  getItems, getItemById, getItemsByUserId, createItem, updateItem,
 } = require('../controllers/items.js');
 
 const router = express.Router();
@@ -12,5 +12,6 @@ router.get('/:id', getItemById);
 router.get('/user/:userId', getItemsByUserId);
 
 router.post('/', createItem);
+router.put('/:id', updateItem);
 
 module.exports = router;
