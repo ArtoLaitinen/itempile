@@ -38,7 +38,7 @@ const items = {
       const selectQuery = `SELECT items.*, users.name as user_name, users.email as user_email
       FROM items
       INNER JOIN users ON items.owner_id = users.id
-      WHERE users.id=?`;
+      WHERE items.owner_id=?`;
 
       const [results] = await connection.query(selectQuery, [userId]);
       connection.release();
