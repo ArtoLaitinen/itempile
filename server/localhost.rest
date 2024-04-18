@@ -49,12 +49,12 @@ Authorization: BEARER {{authToken}}
 }
 
 ###
-PUT http://localhost:{{port}}/api/items/2
+PUT http://localhost:{{port}}/api/items/1
 Content-Type: application/json
 Authorization: BEARER {{authToken}}
 
 {
-    "title": "new test item 2",
+    "title": "new test item 1",
     "description": "new descrition",
     "image": "image.jpg",
     "category": "test category",
@@ -62,7 +62,7 @@ Authorization: BEARER {{authToken}}
 }
 
 ###
-DELETE http://localhost:{{port}}/api/items/8
+DELETE http://localhost:{{port}}/api/items/1
 Authorization: BEARER {{authToken}}
 
 ###

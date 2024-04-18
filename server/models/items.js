@@ -5,7 +5,7 @@ const items = {
     try {
       const connection = await pool.getConnection();
       const [results] = await connection.query(
-        `SELECT items.*, users.id as user_id, users.name as user_name, users.email as user_email
+        `SELECT items.*, users.name as user_name, users.email as user_email
         FROM items
         INNER JOIN users ON items.owner_id = users.id`,
       );
@@ -19,7 +19,7 @@ const items = {
   findItemById: async (id) => {
     try {
       const connection = await pool.getConnection();
-      const selectQuery = `SELECT items.*, users.id as user_id, users.name as user_name, users.email as user_email
+      const selectQuery = `SELECT items.*, users.name as user_name, users.email as user_email
       FROM items
       INNER JOIN users ON items.owner_id = users.id
       WHERE items.id=?`;
@@ -35,10 +35,10 @@ const items = {
   findItemsByUserId: async (userId) => {
     try {
       const connection = await pool.getConnection();
-      const selectQuery = `SELECT items.*, users.id as user_id, users.name as user_name, users.email as user_email
+      const selectQuery = `SELECT items.*, users.name as user_name, users.email as user_email
       FROM items
       INNER JOIN users ON items.owner_id = users.id
-      WHERE users.id=?`;
+      WHERE items.owner_id=?`;
 
       const [results] = await connection.query(selectQuery, [userId]);
       connection.release();

@@ -49,7 +49,7 @@ const getItemById = async (req, res) => {
 
 const getItemsByUserId = async (req, res) => {
   try {
-    const userId = parseInt(req.params.userId, 10);
+    const { userId } = req.params;
 
     const response = await items.findItemsByUserId(userId);
 

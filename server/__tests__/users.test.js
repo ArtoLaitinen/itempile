@@ -1,7 +1,9 @@
 const request = require('supertest');
 const { v4: uuidv4 } = require('uuid');
 const bcrypt = require('bcryptjs');
-const { beforeEach } = require('@jest/globals');
+const {
+  describe, test, expect, beforeEach,
+} = require('@jest/globals');
 const app = require('../app.js');
 const users = require('../models/users.js');
 
