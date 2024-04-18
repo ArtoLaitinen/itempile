@@ -7,6 +7,8 @@ const pool = require('../db/pool.js');
 
 const app = require('../app.js');
 
+const existingUserId = '2bfd3e62-6fd4-48bf-be7e-f694f880b10e';
+
 afterAll(async () => {
   await pool.end();
 });
@@ -108,11 +110,8 @@ describe('Endpoints using middleware:', () => {
 
   describe('GET items by user id endpoint', () => {
     test('should return 200 and items added by user', async () => {
-      // using a user id that is also used in init.sql
-      const userId = '2bfd3e62-6fd4-48bf-be7e-f694f880b10e';
-
       const response = await request(app)
-        .get(`/api/items/user/${userId}`)
+        .get(`/api/items/user/${existingUserId}`)
         .set('Accept', 'application/json')
         .set('Authorization', `BEARER ${loggedInUser.token}`);
 
@@ -128,7 +127,7 @@ describe('Endpoints using middleware:', () => {
         expect(item).toHaveProperty('image');
         expect(item).toHaveProperty('category');
         expect(item).toHaveProperty('price');
-        expect(item.owner_id).toEqual(userId);
+        expect(item.owner_id).toEqual(existingUserId);
         expect(item).toHaveProperty('created');
         expect(item).toHaveProperty('updated');
         expect(item).toHaveProperty('user_name');
@@ -137,10 +136,10 @@ describe('Endpoints using middleware:', () => {
     });
 
     test('should return 404 if no items found', async () => {
-      const userId = '086093ea-91f6-4641-969c-387a31371fdb';
+      const nonExistentUserId = '086093ea-91f6-4641-969c-387a31371fdb';
 
       const response = await request(app)
-        .get(`/api/items/user/${userId}`)
+        .get(`/api/items/user/${nonExistentUserId}`)
         .set('Accept', 'application/json')
         .set('Authorization', `BEARER ${loggedInUser.token}`);
 
@@ -154,11 +153,128 @@ describe('Endpoints using middleware:', () => {
     });
 
     test('should fail without authorization token', async () => {
-      const userId = '2bfd3e62-6fd4-48bf-be7e-f694f880b10e';
+      const response = await request(app)
+        .get(`/api/items/user/${existingUserId}`)
+        .set('Accept', 'application/json');
+
+      expect(response.status).toEqual(401);
+      expect(response.headers['content-type']).toMatch(/json/);
+      expect(response.body).toEqual(
+        expect.objectContaining({
+          message: 'Authorization failed',
+        }),
+      );
+    });
+  });
+
+  describe('Create a new item endpoint', () => {
+    test('should create a new item', async () => {
+      const item = {
+        title: 'test item 1',
+        description: 'test item 1 description',
+        image: 'image.jpg',
+        category: 'test category',
+        price: '20',
+        owner_id: existingUserId,
+      };
 
       const response = await request(app)
-        .get(`/api/items/user/${userId}`)
-        .set('Accept', 'application/json');
+        .post('/api/items')
+        .set('Accept', 'application/json')
+        .set('Content', 'application/json')
+        .set('Authorization', `BEARER ${loggedInUser.token}`)
+        .send(item);
+
+      expect(response.status).toEqual(200);
+      expect(response.headers['content-type']).toMatch(/json/);
+      expect(response.body.id).toBeTruthy();
+      expect(response.body.title).toEqual('test item 1');
+      expect(response.body.description).toEqual('test item 1 description');
+      expect(response.body.image).toEqual('image.jpg');
+      expect(response.body.category).toEqual('test category');
+      expect(response.body.price).toEqual('20');
+      expect(response.body.owner_id).toEqual(existingUserId);
+      expect(response.body.created).toBeTruthy();
+      expect(response.body.updated).toBeTruthy();
+    });
+
+    test('should fail with empty parameter', async () => {
+      const item = {
+        title: '',
+        description: 'test item 1 description',
+        image: 'image.jpg',
+        category: 'test category',
+        price: '20',
+        owner_id: existingUserId,
+      };
+
+      const response = await request(app)
+        .post('/api/items')
+        .set('Accept', 'application/json')
+        .set('Content', 'application/json')
+        .set('Authorization', `BEARER ${loggedInUser.token}`)
+        .send(item);
+
+      expect(response.status).toEqual(400);
+      expect(response.body).toEqual({ message: '"title" is not allowed to be empty' });
+    });
+
+    test('should fail with one parameter missing', async () => {
+      const item = {
+        title: 'test item 1',
+        description: 'test item 1 description',
+        image: 'image.jpg',
+        category: 'test category',
+        owner_id: existingUserId,
+      };
+
+      const response = await request(app)
+        .post('/api/items')
+        .set('Accept', 'application/json')
+        .set('Content', 'application/json')
+        .set('Authorization', `BEARER ${loggedInUser.token}`)
+        .send(item);
+
+      expect(response.status).toEqual(400);
+      expect(response.body).toEqual({ message: '"price" is required' });
+    });
+
+    test('should fail if price is not string', async () => {
+      const item = {
+        title: 'test item 1',
+        description: 'test item 1 description',
+        image: 'image.jpg',
+        category: 'test category',
+        price: 20,
+        owner_id: existingUserId,
+      };
+
+      const response = await request(app)
+        .post('/api/items')
+        .set('Accept', 'application/json')
+        .set('Content', 'application/json')
+        .set('Authorization', `BEARER ${loggedInUser.token}`)
+        .send(item);
+
+      expect(response.status).toEqual(400);
+      expect(response.body).toEqual({ message: '"price" must be a string' });
+    });
+
+    test('should fail without authorization token', async () => {
+      const item = {
+        title: 'test item 1',
+        description: 'test item 1 description',
+        image: 'image.jpg',
+        category: 'test category',
+        price: '20',
+        owner_id: existingUserId,
+      };
+
+      const response = await request(app)
+        .post('/api/items')
+        .set('Accept', 'application/json')
+        .set('Content', 'application/json')
+        .send(item);
 
       expect(response.status).toEqual(401);
       expect(response.headers['content-type']).toMatch(/json/);
