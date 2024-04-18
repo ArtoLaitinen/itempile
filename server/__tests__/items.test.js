@@ -288,6 +288,7 @@ describe('Endpoints using middleware:', () => {
 
   describe('Update an item endpoint', () => {
     test('should update an item', async () => {
+      // creating an item to be updated
       const data = {
         title: 'Update me',
         description: 'Update me',
@@ -378,6 +379,71 @@ describe('Endpoints using middleware:', () => {
         .set('Accept', 'application/json')
         .set('Content', 'application/json')
         .send(updatedValues);
+
+      expect(response.status).toEqual(401);
+      expect(response.headers['content-type']).toMatch(/json/);
+      expect(response.body).toEqual(
+        expect.objectContaining({
+          message: 'Authorization failed',
+        }),
+      );
+    });
+  });
+
+  describe('Delete an item endpoint', () => {
+    test('should delete an item', async () => {
+      // creating an item to be deleted
+      const data = {
+        title: 'Delete me',
+        description: 'Delete me',
+        image: 'image.jpg',
+        category: 'test category',
+        price: '20',
+        owner_id: existingUserId,
+      };
+
+      const createdItemResponse = await request(app)
+        .post('/api/items')
+        .set('Accept', 'application/json')
+        .set('Authorization', `BEARER ${loggedInUser.token}`)
+        .send(data);
+
+      const createdItemId = createdItemResponse.body.id;
+
+      const response = await request(app)
+        .delete(`/api/items/${createdItemId}`)
+        .set('Accept', 'application/json')
+        .set('Authorization', `BEARER ${loggedInUser.token}`);
+
+      expect(response.status).toEqual(200);
+      expect(response.headers['content-type']).toMatch(/json/);
+      expect(response.body).toEqual(
+        expect.objectContaining({
+          message: 'Item deleted successfully',
+        }),
+      );
+    });
+
+    test('should fail if the item doesnt exist', async () => {
+      const response = await request(app)
+        .delete('/api/items/87563728')
+        .set('Accept', 'application/json')
+        .set('Authorization', `BEARER ${loggedInUser.token}`);
+
+      expect(response.status).toEqual(404);
+      expect(response.headers['content-type']).toMatch(/json/);
+
+      expect(response.body).toEqual(
+        expect.objectContaining({
+          message: 'Item not found',
+        }),
+      );
+    });
+
+    test('should fail without authorization token', async () => {
+      const response = await request(app)
+        .delete('/api/items/2')
+        .set('Accept', 'application/json');
 
       expect(response.status).toEqual(401);
       expect(response.headers['content-type']).toMatch(/json/);
