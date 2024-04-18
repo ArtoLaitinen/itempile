@@ -285,4 +285,107 @@ describe('Endpoints using middleware:', () => {
       );
     });
   });
+
+  describe('Update an item endpoint', () => {
+    test('should update an item', async () => {
+      const data = {
+        title: 'Update me',
+        description: 'Update me',
+        image: 'image.jpg',
+        category: 'test category',
+        price: '20',
+        owner_id: existingUserId,
+      };
+
+      const createdItemResponse = await request(app)
+        .post('/api/items')
+        .set('Accept', 'application/json')
+        .set('Authorization', `BEARER ${loggedInUser.token}`)
+        .send(data);
+
+      const createdItemId = createdItemResponse.body.id;
+
+      const updatedValues = {
+        title: 'updated title',
+        description: 'updated description',
+      };
+
+      const response = await request(app)
+        .put(`/api/items/${createdItemId}`)
+        .set('Accept', 'application/json')
+        .set('Content', 'application/json')
+        .set('Authorization', `BEARER ${loggedInUser.token}`)
+        .send(updatedValues);
+
+      expect(response.status).toEqual(200);
+      expect(response.headers['content-type']).toMatch(/json/);
+      expect(response.body.id).toBeTruthy();
+      expect(response.body.title).toEqual('updated title');
+      expect(response.body.description).toEqual('updated description');
+      expect(response.body.image).toEqual('image.jpg');
+      expect(response.body.category).toEqual('test category');
+      expect(response.body.price).toEqual('20');
+      expect(response.body.owner_id).toEqual(existingUserId);
+      expect(response.body.created).toBeTruthy();
+      expect(response.body.updated).toBeTruthy();
+    });
+
+    test('should fail if parameter is empty', async () => {
+      const updatedValues = {
+        title: '',
+      };
+
+      const response = await request(app)
+        .put('/api/items/2')
+        .set('Accept', 'application/json')
+        .set('Content', 'application/json')
+        .set('Authorization', `BEARER ${loggedInUser.token}`)
+        .send(updatedValues);
+
+      expect(response.status).toEqual(400);
+      expect(response.body).toEqual({ message: '"title" is not allowed to be empty' });
+    });
+
+    test('should fail if the item doesnt exist', async () => {
+      const updatedValues = {
+        title: 'new title',
+      };
+
+      const response = await request(app)
+        .put('/api/items/46278164')
+        .set('Accept', 'application/json')
+        .set('Content', 'application/json')
+        .set('Authorization', `BEARER ${loggedInUser.token}`)
+        .send(updatedValues);
+
+      expect(response.status).toEqual(404);
+      expect(response.headers['content-type']).toMatch(/json/);
+
+      expect(response.body).toEqual(
+        expect.objectContaining({
+          message: 'Item not found',
+        }),
+      );
+    });
+
+    test('should fail without authorization token', async () => {
+      const updatedValues = {
+        title: 'new title',
+      };
+
+      const response = await request(app)
+        .post('/api/items/2')
+        .set('Accept', 'application/json')
+        .set('Content', 'application/json')
+        .send(updatedValues);
+
+      expect(response.status).toEqual(401);
+      expect(response.headers['content-type']).toMatch(/json/);
+      expect(response.body).toEqual(
+        expect.objectContaining({
+          message: 'Authorization failed',
+        }),
+      );
+    });
+  });
 });
