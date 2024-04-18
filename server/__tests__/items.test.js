@@ -374,7 +374,7 @@ describe('Endpoints using middleware:', () => {
       };
 
       const response = await request(app)
-        .post('/api/items/2')
+        .put('/api/items/2')
         .set('Accept', 'application/json')
         .set('Content', 'application/json')
         .send(updatedValues);
