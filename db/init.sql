@@ -27,5 +27,12 @@ CREATE TABLE IF NOT EXISTS `items` (
 ) ENGINE = InnoDB DEFAULT CHARSET = latin1;
 
 INSERT INTO items (title, description, image, category, price, owner_id) VALUES
-    ('test1', 'test desc', 'test image', 'test category', '123', '2bfd3e62-6fd4-48bf-be7e-f694f880b10e'),
-    ('test2', 'test desc', 'test image', 'test category', '123', '6eb7a265-d3c1-4780-88cd-54ea3bc7ab59');
+    ('test1', 'test desc', 'https://upload.wikimedia.org/wikipedia/commons/1/1d/Football_Pallo_valmiina-cropped.jpg', 'test category', '123', '2bfd3e62-6fd4-48bf-be7e-f694f880b10e'),
+    ('test2', 'test desc', 'https://thefootballheritage.com/wp-content/uploads/2023/10/cf304ccd.jpg', 'test category', '123', '6eb7a265-d3c1-4780-88cd-54ea3bc7ab59'),
+    ('Sofa', 'test desc', 'https://live.staticflickr.com/4082/4822322673_c6edb296f2_b.jpg', 'test category', '123', '2bfd3e62-6fd4-48bf-be7e-f694f880b10e'),
+    ('PC', 'test desc', 'https://www.trustedreviews.com/wp-content/uploads/sites/54/2023/01/AlphaSync-PBA-Diamond-Gaming-Desktop-PC-16.jpg', 'test category', '123', '2bfd3e62-6fd4-48bf-be7e-f694f880b10e'),
+    ('Shoes', 'test desc', 'https://live.staticflickr.com/65535/51200638532_52a17c552a_b.jpg', 'test category', '123', '2bfd3e62-6fd4-48bf-be7e-f694f880b10e'),
+    ('Wii', 'test desc', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPwxcvRCOhT0nWcotqId9HswY5sZVDKVT7oeygwUrehQ&s', 'test category', '123', '2bfd3e62-6fd4-48bf-be7e-f694f880b10e'),
+    ('Google Pixel 8 pro - phone', 'test desc', 'https://www.trustedreviews.com/wp-content/uploads/sites/54/2023/10/X1007230-scaled.jpeg', 'test category', '123', '2bfd3e62-6fd4-48bf-be7e-f694f880b10e');
+
+
