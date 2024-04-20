@@ -2,14 +2,14 @@ import React from "react";
 import { useQuery } from "react-query";
 import CircularProgress from "@mui/material/CircularProgress";
 import { getItems } from "../api/items";
+import Item from "../components/Item";
+
+import "./AllItemsPage.css";
 
 function AllItemsPage() {
   const { isLoading, error, data } = useQuery("allItems", () => {
     return getItems();
   });
-
-  // eslint-disable-next-line no-console
-  console.log(data);
 
   if (isLoading) {
     return (
@@ -30,7 +30,18 @@ function AllItemsPage() {
     );
   }
 
-  return <h1>ITEMS</h1>;
+  return (
+    <>
+      <h1>ITEMS</h1>
+      <div className="main-container">
+        {data.map((item) => (
+          <div className="item-container" key={item.id}>
+            <Item item={item} />
+          </div>
+        ))}
+      </div>
+    </>
+  );
 }
 
 export default AllItemsPage;

@@ -55,7 +55,7 @@ describe('Endpoints not using middleware: ', () => {
           id: 2,
           title: 'test2',
           description: 'test desc',
-          image: 'test image',
+          image: 'https://thefootballheritage.com/wp-content/uploads/2023/10/cf304ccd.jpg',
           category: 'test category',
           price: '123',
           owner_id: '6eb7a265-d3c1-4780-88cd-54ea3bc7ab59',
