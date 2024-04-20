@@ -55,3 +55,11 @@ jobs:
       - name: Run the server tests
         working-directory: ./server
         run: npm test
+
+      - name: Install the Client dependencies
+        working-directory: ./client
+        run: npm ci
+
+      - name: Run Lint on Client
+        working-directory: ./client
+        run: npm run lint
