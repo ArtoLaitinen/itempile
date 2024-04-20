@@ -24,15 +24,15 @@ function MainNavigation() {
       <List
         sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
       >
-        <ListItem component={Link} to="/">
+        <ListItem component={Link} to="/add">
           <ListItemText primary="Add an Item" />
         </ListItem>
 
-        <ListItem component={Link} to="/">
+        <ListItem component={Link} to="/myitems">
           <ListItemText primary="My Items" />
         </ListItem>
 
-        <ListItem component={Link} to="/">
+        <ListItem component={Link} to="/auth">
           <ListItemText primary="Authenticate" />
         </ListItem>
 
@@ -66,7 +66,7 @@ function MainNavigation() {
           </h3>
 
           <h3 className="nav-item">
-            <Link to="/add">My Items</Link>
+            <Link to="/myitems">My Items</Link>
           </h3>
 
           <h3 className="nav-item">
