@@ -6,7 +6,13 @@ import AllItemsPage from "./pages/AllItemsPage";
 
 import "./App.css";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 function App() {
   const router = createBrowserRouter([
@@ -19,7 +25,7 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />{" "}
+      <RouterProvider router={router} />
     </QueryClientProvider>
   );
 }
