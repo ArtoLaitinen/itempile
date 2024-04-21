@@ -3,6 +3,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import RootLayout from "./pages/RootLayout";
 import AllItemsPage from "./pages/AllItemsPage";
+import ItemPage from "./pages/ItemPage";
 
 import "./App.css";
 
@@ -19,7 +20,10 @@ function App() {
     {
       path: "/",
       element: <RootLayout />,
-      children: [{ index: true, element: <AllItemsPage /> }],
+      children: [
+        { index: true, element: <AllItemsPage /> },
+        { path: "/item/:itemId", element: <ItemPage /> },
+      ],
     },
   ]);
 
