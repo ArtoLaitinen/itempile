@@ -30,9 +30,36 @@ function ItemPage() {
     return <h2>An error has occurred, please try again</h2>;
   }
 
-  console.log(data);
+  return (
+    <>
+      <h1 className="item-title">{data.title}</h1>
+      <div className="main-container">
+        <div className="item-page-image-container">
+          <img src={data.image} alt={data.image} />
+        </div>
 
-  return <h1>ITEM PAGE</h1>;
+        <div className="item-page-details-container">
+          <div className="item-info">
+            <h2 className="item-price">
+              <span className="info-label">Price:</span> {data.price} €
+            </h2>
+            <p className="item-description">{data.description}</p>
+          </div>
+
+          <div className="seller-info">
+            <p>
+              <span className="info-label">Contact the Seller:</span>
+            </p>
+            <p>{data.user_name}</p>
+            <p>
+              <span className="info-label">Email: </span>
+              {data.user_email}
+            </p>
+          </div>
+        </div>
+      </div>
+    </>
+  );
 }
 
 export default ItemPage;
