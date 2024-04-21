@@ -6,7 +6,7 @@ function Item({ item }) {
     <>
       <h2 className="item-title-text">{item.title}</h2>
 
-      <h2 className="item-price-text">{item.price}</h2>
+      <h2 className="item-price-text">{item.price} €</h2>
 
       <div className="image-container">
         <img src={item.image} alt={item.image} />

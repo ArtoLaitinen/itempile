@@ -7,7 +7,8 @@ const items = {
       const [results] = await connection.query(
         `SELECT items.*, users.name as user_name, users.email as user_email
         FROM items
-        INNER JOIN users ON items.owner_id = users.id`,
+        INNER JOIN users ON items.owner_id = users.id
+        ORDER BY items.id`,
       );
       connection.release();
       return results;

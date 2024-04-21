@@ -3,23 +3,33 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import RootLayout from "./pages/RootLayout";
 import AllItemsPage from "./pages/AllItemsPage";
+import ItemPage from "./pages/ItemPage";
 
 import "./App.css";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 function App() {
   const router = createBrowserRouter([
     {
       path: "/",
       element: <RootLayout />,
-      children: [{ index: true, element: <AllItemsPage /> }],
+      children: [
+        { index: true, element: <AllItemsPage /> },
+        { path: "/item/:itemId", element: <ItemPage /> },
+      ],
     },
   ]);
 
   return (
     <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />{" "}
+      <RouterProvider router={router} />
     </QueryClientProvider>
   );
 }

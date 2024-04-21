@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
 import CircularProgress from "@mui/material/CircularProgress";
 import { getItems } from "../api/items";
@@ -7,6 +8,12 @@ import Item from "../components/Item";
 import "./AllItemsPage.css";
 
 function AllItemsPage() {
+  const navigate = useNavigate();
+
+  const handleItemClick = (itemId) => {
+    navigate(`/item/${itemId}`);
+  };
+
   const { isLoading, error, data } = useQuery("allItems", () => {
     return getItems();
   });
@@ -35,7 +42,19 @@ function AllItemsPage() {
       <h1>ITEMS</h1>
       <div className="main-container">
         {data.map((item) => (
-          <div className="item-container" key={item.id}>
+          <div
+            className="item-container"
+            key={item.id}
+            role="button"
+            onClick={() => handleItemClick(item.id)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleItemClick(item.id);
+              }
+            }}
+            tabIndex={0}
+            aria-label="View item"
+          >
             <Item item={item} />
           </div>
         ))}
