@@ -11,3 +11,20 @@
   margin: 0 auto;
   flex-direction: row;
 }
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  width: 75%;
+  margin: 0 auto;
+  margin-bottom: 20px;
+}
+
+.form-item {
+  display: flex;
+  flex-direction: row;
+  margin: 20px;
+  justify-content: center;
+  align-items: center;
+}
