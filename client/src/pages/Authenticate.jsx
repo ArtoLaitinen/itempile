@@ -6,7 +6,7 @@ import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { AuthContext } from "../utils/AuthContext";
+import AuthContext from "../utils/AuthContext";
 import { loginUser, signUpUser } from "../api/users";
 
 function Authenticate() {
@@ -28,12 +28,10 @@ function Authenticate() {
   const signUpUserMutation = useMutation({
     mutationFn: signUpUser,
     onSuccess: (data) => {
-      console.log(data);
-      auth.login(data.id, data.admin, data.token);
+      auth.login(data.id, data.token);
       navigate("/");
     },
-    onError: (error) => {
-      console.log(error);
+    onError: () => {
       toast.error("Unexprected error while signing up");
     },
   });
@@ -41,12 +39,10 @@ function Authenticate() {
   const loginUserMutation = useMutation({
     mutationFn: loginUser,
     onSuccess: (data) => {
-      console.log(data);
-      auth.login(data.id, data.admin, data.token);
+      auth.login(data.id, data.token);
       navigate("/");
     },
     onError: (error) => {
-      console.log(error);
       if (error instanceof TypeError) {
         toast.error("Failed to connect to the server");
       } else {
