@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Drawer from "@mui/material/Drawer";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
@@ -8,15 +8,23 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import AuthContext from "../utils/AuthContext";
 
 import "./MainNavigation.css";
 
 function MainNavigation() {
+  const auth = useContext(AuthContext);
   const [openDrawer, setOpenDrawer] = useState(false);
   const isSmallScreen = useMediaQuery("(max-width: 810px)");
+  const navigate = useNavigate();
 
   const toggleDrawer = () => {
     setOpenDrawer(!openDrawer);
+  };
+
+  const logoutHandler = () => {
+    auth.logout();
+    navigate("/");
   };
 
   const drawerContent = (
@@ -36,7 +44,7 @@ function MainNavigation() {
           <ListItemText primary="Authenticate" />
         </ListItem>
 
-        <ListItem component={Button}>
+        <ListItem component={Button} onClick={logoutHandler}>
           <ListItemText primary="Log out" />
         </ListItem>
       </List>
@@ -73,7 +81,12 @@ function MainNavigation() {
             <Link to="/auth">Authenticate</Link>
           </h3>
 
-          <Button variant="contained" color="warning" sx={{ height: "60%" }}>
+          <Button
+            variant="contained"
+            color="warning"
+            onClick={logoutHandler}
+            sx={{ height: "60%" }}
+          >
             Log out
           </Button>
         </div>
