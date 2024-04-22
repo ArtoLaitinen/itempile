@@ -1,6 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import RootLayout from "./pages/RootLayout";
 import AllItemsPage from "./pages/AllItemsPage";
 import ItemPage from "./pages/ItemPage";
@@ -100,11 +102,25 @@ function App() {
   );
 
   return (
-    <AuthContext.Provider value={authContextValue}>
-      <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
-      </QueryClientProvider>
-    </AuthContext.Provider>
+    <>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable={false}
+        pauseOnHover
+        theme="colored"
+      />
+      <AuthContext.Provider value={authContextValue}>
+        <QueryClientProvider client={queryClient}>
+          <RouterProvider router={router} />
+        </QueryClientProvider>
+      </AuthContext.Provider>
+    </>
   );
 }
 
