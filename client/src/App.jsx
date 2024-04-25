@@ -6,6 +6,8 @@ import "react-toastify/dist/ReactToastify.css";
 import RootLayout from "./pages/RootLayout";
 import AllItemsPage from "./pages/AllItemsPage";
 import ItemPage from "./pages/ItemPage";
+import MyItemsPage from "./pages/MyItemsPage";
+import AddItemPage from "./pages/AddItemPage";
 import Authenticate from "./pages/Authenticate";
 import AuthContext from "./utils/AuthContext";
 
@@ -88,6 +90,8 @@ function App() {
         { index: true, element: <AllItemsPage /> },
         { path: "/item/:itemId", element: <ItemPage /> },
         { path: "/auth", element: <Authenticate /> },
+        { path: "/myitems", element: <MyItemsPage /> },
+        { path: "/add", element: <AddItemPage /> },
       ],
     },
   ]);
