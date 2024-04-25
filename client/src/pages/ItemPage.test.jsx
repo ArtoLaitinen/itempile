@@ -1,6 +1,6 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
-import { describe, expect, test, vi } from "vitest";
+import { beforeEach, describe, expect, test, vi } from "vitest";
 import { useQuery } from "react-query";
 import ItemPage from "./ItemPage";
 
@@ -15,6 +15,10 @@ describe("ItemPage", () => {
     user_name: "Test User",
     user_email: "test@example.com",
   };
+
+  beforeEach(() => {
+    vi.stubGlobal("scrollTo", vi.fn());
+  });
 
   test("renders error message when data fetching fails", async () => {
     const errorMessage = "Failed to fetch item";

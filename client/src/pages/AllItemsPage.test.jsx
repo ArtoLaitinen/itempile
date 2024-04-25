@@ -1,6 +1,6 @@
 import React from "react";
 import { render, screen, waitFor, fireEvent } from "@testing-library/react";
-import { describe, expect, test, vi } from "vitest";
+import { beforeEach, describe, expect, test, vi } from "vitest";
 import { BrowserRouter } from "react-router-dom";
 import * as router from "react-router";
 import { useQuery } from "react-query";
@@ -8,6 +8,10 @@ import AllItemsPage from "./AllItemsPage";
 
 describe("AllItemsPage", () => {
   vi.mock("react-query");
+
+  beforeEach(() => {
+    vi.stubGlobal("scrollTo", vi.fn());
+  });
 
   test("renders error message when data fetching fails", async () => {
     const errorMessage = "Failed to fetch items";
