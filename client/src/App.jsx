@@ -6,6 +6,8 @@ import "react-toastify/dist/ReactToastify.css";
 import RootLayout from "./pages/RootLayout";
 import AllItemsPage from "./pages/AllItemsPage";
 import ItemPage from "./pages/ItemPage";
+import MyItemsPage from "./pages/MyItemsPage";
+import AddItemPage from "./pages/AddItemPage";
 import Authenticate from "./pages/Authenticate";
 import AuthContext from "./utils/AuthContext";
 
@@ -22,6 +24,12 @@ const queryClient = new QueryClient({
 let logoutTimer;
 
 function App() {
+  // used because otherwise routes arent rendered correctly
+  // with this the page isnt rendered before localStorage is read
+  // for example if you refresh the page on the my items page when logged in
+  // you get the error page if this state isnt used
+  const [localStorageRead, setLocalStorageRead] = useState(false);
+
   // states used for authorization
   const [token, setToken] = useState(null);
   const [userId, setUserId] = useState(null);
@@ -58,15 +66,16 @@ function App() {
     const storedUserData = JSON.parse(localStorage.getItem("userData"));
     if (
       storedUserData &&
-      storedUserData.token &&
+      storedUserData.authToken &&
       new Date(storedUserData.expiration) > new Date()
     ) {
       login(
         storedUserData.uid,
-        storedUserData.token,
+        storedUserData.authToken,
         new Date(storedUserData.expiration),
       );
     }
+    setLocalStorageRead(true);
   }, [login]);
 
   // logout the user when expirationDate has passed
@@ -80,15 +89,30 @@ function App() {
     }
   }, [token, logout, tokenExpirationDate]);
 
+  let routes;
+
+  // routes if logged in
+  if (token) {
+    routes = [
+      { index: true, element: <AllItemsPage /> },
+      { path: "/item/:itemId", element: <ItemPage /> },
+      { path: "/myitems", element: <MyItemsPage /> },
+      { path: "/add", element: <AddItemPage /> },
+    ];
+  } else {
+    // routes if not logged in
+    routes = [
+      { index: true, element: <AllItemsPage /> },
+      { path: "/item/:itemId", element: <ItemPage /> },
+      { path: "/auth", element: <Authenticate /> },
+    ];
+  }
+
   const router = createBrowserRouter([
     {
       path: "/",
       element: <RootLayout />,
-      children: [
-        { index: true, element: <AllItemsPage /> },
-        { path: "/item/:itemId", element: <ItemPage /> },
-        { path: "/auth", element: <Authenticate /> },
-      ],
+      children: routes,
     },
   ]);
 
@@ -117,11 +141,13 @@ function App() {
         pauseOnHover
         theme="colored"
       />
-      <AuthContext.Provider value={authContextValue}>
-        <QueryClientProvider client={queryClient}>
-          <RouterProvider router={router} />
-        </QueryClientProvider>
-      </AuthContext.Provider>
+      {localStorageRead && (
+        <AuthContext.Provider value={authContextValue}>
+          <QueryClientProvider client={queryClient}>
+            <RouterProvider router={router} />
+          </QueryClientProvider>
+        </AuthContext.Provider>
+      )}
     </>
   );
 }

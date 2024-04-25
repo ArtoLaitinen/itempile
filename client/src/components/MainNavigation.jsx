@@ -32,21 +32,27 @@ function MainNavigation() {
       <List
         sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
       >
-        <ListItem component={Link} to="/add">
-          <ListItemText primary="Add an Item" />
-        </ListItem>
+        {auth.isLoggedIn && (
+          <>
+            <ListItem component={Link} to="/add">
+              <ListItemText primary="Add an Item" />
+            </ListItem>
 
-        <ListItem component={Link} to="/myitems">
-          <ListItemText primary="My Items" />
-        </ListItem>
+            <ListItem component={Link} to="/myitems">
+              <ListItemText primary="My Items" />
+            </ListItem>
 
-        <ListItem component={Link} to="/auth">
-          <ListItemText primary="Authenticate" />
-        </ListItem>
+            <ListItem component={Button} onClick={logoutHandler}>
+              <ListItemText primary="Log out" />
+            </ListItem>
+          </>
+        )}
 
-        <ListItem component={Button} onClick={logoutHandler}>
-          <ListItemText primary="Log out" />
-        </ListItem>
+        {!auth.isLoggedIn && (
+          <ListItem component={Link} to="/auth">
+            <ListItemText primary="Authenticate" />
+          </ListItem>
+        )}
       </List>
     </div>
   );
@@ -69,26 +75,31 @@ function MainNavigation() {
         </div>
       ) : (
         <div className="nav-links">
-          <h3 className="nav-item">
-            <Link to="/add">Add an Item</Link>
-          </h3>
+          {auth.isLoggedIn && (
+            <>
+              <h3 className="nav-item">
+                <Link to="/add">Add an Item</Link>
+              </h3>
 
-          <h3 className="nav-item">
-            <Link to="/myitems">My Items</Link>
-          </h3>
+              <h3 className="nav-item">
+                <Link to="/myitems">My Items</Link>
+              </h3>
+              <Button
+                variant="contained"
+                color="warning"
+                onClick={logoutHandler}
+                sx={{ height: "60%" }}
+              >
+                Log out
+              </Button>
+            </>
+          )}
 
-          <h3 className="nav-item">
-            <Link to="/auth">Authenticate</Link>
-          </h3>
-
-          <Button
-            variant="contained"
-            color="warning"
-            onClick={logoutHandler}
-            sx={{ height: "60%" }}
-          >
-            Log out
-          </Button>
+          {!auth.isLoggedIn && (
+            <h3 className="nav-item">
+              <Link to="/auth">Authenticate</Link>
+            </h3>
+          )}
         </div>
       )}
 
