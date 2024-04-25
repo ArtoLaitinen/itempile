@@ -54,6 +54,7 @@ function AllItemsPage() {
             }}
             tabIndex={0}
             aria-label="View item"
+            data-testid="item"
           >
             <Item item={item} />
           </div>
