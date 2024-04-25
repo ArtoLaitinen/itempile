@@ -143,7 +143,7 @@ function Authenticate() {
             size="large"
             sx={{ width: "33%" }}
           >
-            {isLoginMode ? "Login" : "Signup"}
+            {isLoginMode ? "Login" : "Sign up"}
           </Button>
         </form>
 
@@ -155,7 +155,7 @@ function Authenticate() {
             onClick={switchModeHandler}
             sx={{ width: "33%", marginTop: "3%" }}
           >
-            {isLoginMode ? "Signup instead?" : "Login instead?"}
+            {isLoginMode ? "Sign up instead?" : "Login instead?"}
           </Button>
         </div>
       </div>
