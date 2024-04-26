@@ -12,6 +12,7 @@ describe("ItemPage", () => {
     image: "test.jpg",
     price: 20,
     description: "Test description",
+    category: "Test category",
     user_name: "Test User",
     user_email: "test@example.com",
   };
@@ -49,6 +50,7 @@ describe("ItemPage", () => {
     const itemTitle = screen.getByText(mockItemData.title);
     const itemImage = screen.getByAltText(mockItemData.image);
     const itemPrice = screen.getByText(`${mockItemData.price} €`);
+    const itemCategory = screen.getByText(mockItemData.category);
     const itemDescription = screen.getByText(mockItemData.description);
     const sellerName = screen.getByText(mockItemData.user_name);
     const sellerEmail = screen.getByText(mockItemData.user_email);
@@ -57,6 +59,7 @@ describe("ItemPage", () => {
     expect(itemImage).toBeInTheDocument();
     expect(itemImage.getAttribute("src")).toBe("test.jpg");
     expect(itemPrice).toBeInTheDocument();
+    expect(itemCategory).toBeInTheDocument();
     expect(itemDescription).toBeInTheDocument();
     expect(sellerName).toBeInTheDocument();
     expect(sellerEmail).toBeInTheDocument();
