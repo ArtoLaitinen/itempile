@@ -141,7 +141,7 @@ function Authenticate() {
             variant="contained"
             color="warning"
             size="large"
-            sx={{ width: "33%" }}
+            sx={{ width: "80%" }}
           >
             {isLoginMode ? "Login" : "Sign up"}
           </Button>
@@ -153,7 +153,7 @@ function Authenticate() {
             variant="contained"
             size="large"
             onClick={switchModeHandler}
-            sx={{ width: "33%", marginTop: "3%" }}
+            sx={{ width: "80%", marginTop: "10%" }}
           >
             {isLoginMode ? "Sign up instead?" : "Login instead?"}
           </Button>
