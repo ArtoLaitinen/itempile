@@ -27,7 +27,7 @@ function ItemPage() {
   }
 
   if (error) {
-    return <h2>An error has occurred, please try again</h2>;
+    return <h2>An error has occurred: {error.message}</h2>;
   }
 
   return (

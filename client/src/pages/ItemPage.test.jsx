@@ -33,7 +33,7 @@ describe("ItemPage", () => {
     render(<ItemPage />);
 
     const errorText = await screen.findByText(
-      `An error has occurred, please try again`,
+      `An error has occurred: ${errorMessage}`,
     );
     expect(errorText).toBeInTheDocument();
   });
