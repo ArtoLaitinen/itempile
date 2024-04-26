@@ -40,8 +40,11 @@ function ItemPage() {
 
         <div className="item-page-details-container">
           <div className="item-info">
-            <h2 className="item-price">
+            <h2>
               <span className="info-label">Price:</span> {data.price} €
+            </h2>
+            <h2>
+              <span className="info-label">Category:</span> {data.category}
             </h2>
             <p className="item-description">{data.description}</p>
           </div>
