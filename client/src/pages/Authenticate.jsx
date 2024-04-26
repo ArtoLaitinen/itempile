@@ -68,7 +68,17 @@ function Authenticate() {
 
   const validationSchema = yup.object().shape({
     name: !isLoginMode ? yup.string().required("Name is required") : undefined,
-    email: yup.string().email("Invalid email").required("Email is required"),
+
+    email: yup
+      .string()
+      .email("Invalid email")
+      .required("Email is required")
+      .test("valid-domain", "Invalid email", (value) => {
+        const [, domain] = value.split("@");
+        const domainSegments = domain.split(".");
+        return domainSegments.length >= 2;
+      }),
+
     password: !isLoginMode
       ? yup.string().min(8).required("Password is required")
       : yup.string().required("Password is required"),
