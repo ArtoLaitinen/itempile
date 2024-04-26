@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 export const getItems = async () => {
   try {
     const response = await fetch(`${import.meta.env.VITE_API_URL}/api/items`);
@@ -40,4 +41,39 @@ export const getItemById = async (itemId) => {
     }
     throw error;
   }
+};
+
+export const addItem = async ({
+  title,
+  description,
+  image,
+  category,
+  price,
+  owner_id,
+  token,
+}) => {
+  const response = await fetch(`${import.meta.env.VITE_API_URL}/api/items`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      title,
+      description,
+      image,
+      category,
+      price,
+      owner_id,
+    }),
+  });
+
+  const responseJson = await response.json();
+
+  if (!response.ok) {
+    throw new Error("Failed to add");
+  }
+
+  return responseJson;
 };
