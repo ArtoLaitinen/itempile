@@ -22,6 +22,9 @@ const getItems = async (req, res) => {
   try {
     const response = await items.findItems();
     if (response) {
+      if (response.length === 0) {
+        return res.status(404).json({ message: 'No items found' });
+      }
       return res.json(response);
     }
 
