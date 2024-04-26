@@ -140,8 +140,11 @@ function AddItemPage() {
                 onBlur={handleBlur}
                 error={errors.category && touched.category}
               >
-                {Categories.map((category) => (
-                  <MenuItem value={category}>{category}</MenuItem>
+                {Categories.map((category, index) => (
+                  // eslint-disable-next-line react/no-array-index-key
+                  <MenuItem value={category} key={index}>
+                    {category}
+                  </MenuItem>
                 ))}
               </Select>
               <FormHelperText sx={{ color: "#d32f2f" }}>
