@@ -9,14 +9,20 @@ import {
   FormControl,
   FormHelperText,
 } from "@mui/material";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useMutation } from "react-query";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import EditModalContext from "../utils/EditModalContext";
+import AuthContext from "../utils/AuthContext";
+import { updateItem } from "../api/items";
 import Categories from "../utils/Categories";
 import "./EditModal.css";
 
 function EditModal({ refetch }) {
   const [editModalState, updateEditModalState] = useContext(EditModalContext);
+  const auth = useContext(AuthContext);
 
   const handleModalClose = () => {
     updateEditModalState({
@@ -31,9 +37,26 @@ function EditModal({ refetch }) {
     });
   };
 
-  const onSubmit = () => {
-    refetch();
-    handleModalClose();
+  const updateItemMutation = useMutation({
+    mutationFn: updateItem,
+  });
+
+  const onSubmit = async (values) => {
+    try {
+      await updateItemMutation.mutateAsync({
+        itemId: editModalState.item.id,
+        title: values.title,
+        description: values.description,
+        image: values.image,
+        category: values.category,
+        price: values.price.toString(),
+        token: auth.token,
+      });
+      refetch();
+      handleModalClose();
+    } catch (error) {
+      toast.error("Error updating the menu item, please try again");
+    }
   };
 
   const formSchema = yup.object().shape({
