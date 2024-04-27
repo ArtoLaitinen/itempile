@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { useMutation, useQuery } from "react-query";
 import { Button, CircularProgress } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -15,6 +16,8 @@ import EditModal from "../components/EditModal";
 function MyItemsPage() {
   const auth = useContext(AuthContext);
   const [, updateEditModalState] = useContext(EditModalContext);
+
+  const navigate = useNavigate();
 
   const { isLoading, error, data, refetch } = useQuery(
     "itemsByUser",
@@ -80,7 +83,20 @@ function MyItemsPage() {
       <h1>MY ITEMS PAGE</h1>
       <div className="main-container">
         {data.map((item) => (
-          <div className="myitem-container" key={item.id}>
+          <div
+            className="myitem-container"
+            key={item.id}
+            role="button"
+            onClick={() => navigate(`/item/${item.id}`)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                navigate(`/item/${item.id}`);
+              }
+            }}
+            tabIndex={0}
+            aria-label="View item"
+            data-testid="myItem"
+          >
             <Item item={item} />
             <div className="edit-buttons">
               <Button
