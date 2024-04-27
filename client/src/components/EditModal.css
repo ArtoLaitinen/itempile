@@ -1,0 +1,15 @@
+.modalStyle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 50%;
+  max-width: 75%;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  border: 2px solid black;
+  border-radius: 1px;
+}

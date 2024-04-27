@@ -6,12 +6,15 @@ import EditIcon from "@mui/icons-material/Edit";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AuthContext from "../utils/AuthContext";
+import EditModalContext from "../utils/EditModalContext";
 import { deleteItem, getItemsByUserId } from "../api/items";
 import Item from "../components/Item";
 import "./MyItemsPage.css";
+import EditModal from "../components/EditModal";
 
 function MyItemsPage() {
   const auth = useContext(AuthContext);
+  const [, updateEditModalState] = useContext(EditModalContext);
 
   const { isLoading, error, data, refetch } = useQuery(
     "itemsByUser",
@@ -65,6 +68,13 @@ function MyItemsPage() {
     }
   };
 
+  const handleEdit = (item) => {
+    updateEditModalState({
+      isEditModalOpen: true,
+      item,
+    });
+  };
+
   return (
     <>
       <h1>MY ITEMS PAGE</h1>
@@ -77,6 +87,7 @@ function MyItemsPage() {
                 variant="contained"
                 size="large"
                 startIcon={<EditIcon />}
+                onClick={() => handleEdit(item)}
                 sx={{ m: 2 }}
               >
                 Edit
@@ -95,6 +106,7 @@ function MyItemsPage() {
           </div>
         ))}
       </div>
+      <EditModal refetch={refetch} />
     </>
   );
 }
