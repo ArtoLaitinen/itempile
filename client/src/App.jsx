@@ -9,6 +9,7 @@ import ItemPage from "./pages/ItemPage";
 import MyItemsPage from "./pages/MyItemsPage";
 import AddItemPage from "./pages/AddItemPage";
 import Authenticate from "./pages/Authenticate";
+import ErrorPage from "./pages/ErrorPage";
 import AuthContext from "./utils/AuthContext";
 import { EditModalContextProvider } from "./utils/EditModalContext";
 
@@ -112,6 +113,7 @@ function App() {
   const router = createBrowserRouter([
     {
       path: "/",
+      errorElement: <ErrorPage />,
       element: <RootLayout />,
       children: routes,
     },
