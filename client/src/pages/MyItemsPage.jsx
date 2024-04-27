@@ -84,7 +84,7 @@ function MyItemsPage() {
       <h1>MY ITEMS PAGE</h1>
       <div className="main-container">
         {data.map((item) => (
-          <div className="myitem-container" key={item.id}>
+          <div className="myitem-container" key={item.id} data-testid="myItem">
             <Item item={item} />
             <div className="edit-buttons">
               <Button
