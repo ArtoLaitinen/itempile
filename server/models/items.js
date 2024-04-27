@@ -8,7 +8,7 @@ const items = {
         `SELECT items.*, users.name as user_name, users.email as user_email
         FROM items
         INNER JOIN users ON items.owner_id = users.id
-        ORDER BY items.id`,
+        ORDER BY items.id DESC`,
       );
       connection.release();
       return results;
@@ -39,7 +39,8 @@ const items = {
       const selectQuery = `SELECT items.*, users.name as user_name, users.email as user_email
       FROM items
       INNER JOIN users ON items.owner_id = users.id
-      WHERE items.owner_id=?`;
+      WHERE items.owner_id=?
+      ORDER BY items.id DESC`;
 
       const [results] = await connection.query(selectQuery, [userId]);
       connection.release();
