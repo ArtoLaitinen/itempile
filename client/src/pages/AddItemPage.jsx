@@ -137,7 +137,6 @@ function AddItemPage() {
                   const { value } = e.target;
                   handleChange("category")(value);
                 }}
-                onBlur={handleBlur}
                 error={errors.category && touched.category}
               >
                 {Categories.map((category, index) => (
