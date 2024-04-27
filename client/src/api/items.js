@@ -97,11 +97,31 @@ export const addItem = async ({
     }),
   });
 
-  const responseJson = await response.json();
-
   if (!response.ok) {
     throw new Error("Failed to add");
   }
+
+  const responseJson = await response.json();
+
+  return responseJson;
+};
+
+export const deleteItem = async ({ itemId, token }) => {
+  const response = await fetch(
+    `${import.meta.env.VITE_API_URL}/api/items/${itemId}`,
+    {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to delete");
+  }
+
+  const responseJson = await response.json();
 
   return responseJson;
 };
