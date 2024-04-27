@@ -4,6 +4,7 @@ import { useMutation, useQuery } from "react-query";
 import { Button, CircularProgress } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AuthContext from "../utils/AuthContext";
@@ -83,26 +84,22 @@ function MyItemsPage() {
       <h1>MY ITEMS PAGE</h1>
       <div className="main-container">
         {data.map((item) => (
-          <div
-            className="myitem-container"
-            key={item.id}
-            role="button"
-            onClick={() => navigate(`/item/${item.id}`)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                navigate(`/item/${item.id}`);
-              }
-            }}
-            tabIndex={0}
-            aria-label="View item"
-            data-testid="myItem"
-          >
+          <div className="myitem-container" key={item.id}>
             <Item item={item} />
             <div className="edit-buttons">
               <Button
                 variant="contained"
-                size="large"
-                startIcon={<EditIcon />}
+                size="medium"
+                endIcon={<VisibilityIcon />}
+                onClick={() => navigate(`/item/${item.id}`)}
+                sx={{ m: 2 }}
+              >
+                View
+              </Button>
+              <Button
+                variant="contained"
+                size="medium"
+                endIcon={<EditIcon />}
                 onClick={() => handleEdit(item)}
                 sx={{ m: 2 }}
               >
@@ -110,7 +107,7 @@ function MyItemsPage() {
               </Button>
               <Button
                 variant="contained"
-                size="large"
+                size="medium"
                 color="error"
                 endIcon={<DeleteIcon />}
                 onClick={() => handleDelete(item.id)}
