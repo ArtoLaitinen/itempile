@@ -10,6 +10,7 @@ import MyItemsPage from "./pages/MyItemsPage";
 import AddItemPage from "./pages/AddItemPage";
 import Authenticate from "./pages/Authenticate";
 import AuthContext from "./utils/AuthContext";
+import { EditModalContextProvider } from "./utils/EditModalContext";
 
 import "./App.css";
 
@@ -142,11 +143,13 @@ function App() {
         theme="colored"
       />
       {localStorageRead && (
-        <AuthContext.Provider value={authContextValue}>
-          <QueryClientProvider client={queryClient}>
-            <RouterProvider router={router} />
-          </QueryClientProvider>
-        </AuthContext.Provider>
+        <EditModalContextProvider>
+          <AuthContext.Provider value={authContextValue}>
+            <QueryClientProvider client={queryClient}>
+              <RouterProvider router={router} />
+            </QueryClientProvider>
+          </AuthContext.Provider>
+        </EditModalContextProvider>
       )}
     </>
   );
