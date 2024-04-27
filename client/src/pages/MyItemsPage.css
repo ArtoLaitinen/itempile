@@ -31,3 +31,10 @@
   align-items: flex-end;
   justify-content: center;
 }
+
+@media (max-width: 800px ){
+  .edit-buttons {
+      flex-direction: column;
+      align-items: center;
+  }
+}

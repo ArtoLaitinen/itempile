@@ -10,5 +10,6 @@ module.exports = {
     "react/jsx-no-target-blank": "off",
     "react/prop-types": "off",
     "import/no-extraneous-dependencies": "off",
+    "no-alert": "off",
   },
 };
