@@ -1,18 +1,36 @@
 import React, { useContext } from "react";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { Button, CircularProgress } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import AuthContext from "../utils/AuthContext";
-import { getItemsByUserId } from "../api/items";
+import { deleteItem, getItemsByUserId } from "../api/items";
 import Item from "../components/Item";
 import "./MyItemsPage.css";
 
 function MyItemsPage() {
   const auth = useContext(AuthContext);
 
-  const { isLoading, error, data } = useQuery("allItems", () => {
-    return getItemsByUserId(auth.userId, auth.token);
+  const { isLoading, error, data, refetch } = useQuery(
+    "itemsByUser",
+    () => {
+      return getItemsByUserId(auth.userId, auth.token);
+    },
+    {
+      retry: 0,
+    },
+  );
+
+  const deleteItemMutation = useMutation({
+    mutationFn: deleteItem,
+    onSuccess: () => {
+      refetch();
+    },
+    onError: () => {
+      toast.error("Failed to delete the item, try again later");
+    },
   });
 
   if (isLoading) {
@@ -29,10 +47,23 @@ function MyItemsPage() {
   if (error) {
     return (
       <>
-        <h1>MY ITEMS PAGE</h1> <h2>An error has occurred: {error.message}</h2>
+        <h1>MY ITEMS PAGE</h1> <h2>{error.message}</h2>
       </>
     );
   }
+
+  const handleDelete = (itemId) => {
+    if (
+      window.confirm(
+        "This action will delete the item from itempile! Are you sure?",
+      )
+    ) {
+      deleteItemMutation.mutate({
+        itemId,
+        token: auth.token,
+      });
+    }
+  };
 
   return (
     <>
@@ -55,6 +86,7 @@ function MyItemsPage() {
                 size="large"
                 color="error"
                 endIcon={<DeleteIcon />}
+                onClick={() => handleDelete(item.id)}
                 sx={{ m: 2 }}
               >
                 Delete
