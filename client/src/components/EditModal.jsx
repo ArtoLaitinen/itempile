@@ -52,6 +52,7 @@ function EditModal({ refetch }) {
         price: values.price.toString(),
         token: auth.token,
       });
+      toast.success("Item updated successfully");
       refetch();
       handleModalClose();
     } catch (error) {
