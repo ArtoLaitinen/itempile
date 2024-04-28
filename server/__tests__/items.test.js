@@ -53,11 +53,11 @@ describe('Endpoints not using middleware: ', () => {
       expect(response.body).toEqual(
         expect.objectContaining({
           id: 2,
-          title: 'test2',
-          description: 'test desc',
+          title: 'FC Barcelona 10/11 shirt',
+          description: 'Really nice shirt for collectors. The shirt has been kept in good condition and it has never been worn',
           image: 'https://thefootballheritage.com/wp-content/uploads/2023/10/cf304ccd.jpg',
-          category: 'test category',
-          price: '123',
+          category: 'Sports',
+          price: '120',
           owner_id: '6eb7a265-d3c1-4780-88cd-54ea3bc7ab59',
           user_name: 'dev2',
           user_email: 'dev@gmail.com',
