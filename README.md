@@ -10,6 +10,12 @@ NOTE: needs VPN connection to TAMK's network to be able to reach the site
 - Itempile is an online marketplace like eBay or Tori.fi where users can post their own items and see other users items
 - Each item has contact information so users can contact the seller via email
 - The application is created with JavaScript and consists of a Vite/React frontend, a Node backend with an Express API and a MySQL database
+- Used GitHub issues while developing
+
+## How the project went?
+Overall the project went really well but I still had some problems and challenges during it. Right at the start when I was setting up ESlint for my backend code I ran to my first problem. I tried setting up ESlint with the `npm init @eslint/config` command but it didnt work properly for me. Then I noticed that the init script didnt install the correct dependencies, since there was for example `eslint-plugin-react` installed even though I said in the init script that I was using ESlint for a Node backend. I then decided to just install the ESlint manually without the init script. But I was left wondering if that bug was only a me problem or was it for other people too, so I decided to make an issue about it in ESlint's repository. It turned out to be an actual bug that they then fixed! Link to the issue: https://github.com/eslint/create-config/issues/87
+
+Apart from that problem at the start, I didnt have any major problems. I had some challenges during writing tests for the frontend, because I had to mock a lot of stuff but luckily I managed to overcome them. If I did this project again, I would consider writing e2e tests with cypress mostly instead. That way you wouldn't have to mock so much stuff and it would cover the whole application. I would also consider using only Material UI for the frontend styling and not a combination of plain CSS and Material UI 
 
 
 ## Running the application locally
