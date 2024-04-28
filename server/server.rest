@@ -1,0 +1,68 @@
+@host = http://172.16.4.130:5000
+@authToken = {{login.response.body.token}}
+
+###
+GET {{host}}/health
+
+###
+POST {{host}}/api/users/signup
+Content-Type: application/json
+
+{
+    "name": "Tester",
+    "email": "test@email.com",
+    "password": "good_password"
+}
+
+###
+# @name login
+POST {{host}}/api/users/login
+Content-Type: application/json
+
+{
+    "email": "test@email.com",
+    "password": "good_password"
+}
+
+###
+GET {{host}}/api/items
+
+###
+GET {{host}}/api/items/2
+
+###
+GET {{host}}/api/items/user/2bfd3e62-6fd4-48bf-be7e-f694f880b10e
+Authorization: BEARER {{authToken}}
+
+###
+POST {{host}}/api/items
+Content-Type: application/json
+Authorization: BEARER {{authToken}}
+
+{
+    "title": "test item 1",
+    "description": "test item 1 description",
+    "image": "image.jpg",
+    "category": "test category",
+    "price": "20",
+    "owner_id": "2bfd3e62-6fd4-48bf-be7e-f694f880b10e"
+}
+
+###
+PUT {{host}}/api/items/1
+Content-Type: application/json
+Authorization: BEARER {{authToken}}
+
+{
+    "title": "new test item 1",
+    "description": "new descrition",
+    "image": "image.jpg",
+    "category": "test category",
+    "price": "20"
+}
+
+###
+DELETE {{host}}/api/items/1
+Authorization: BEARER {{authToken}}
+
+###
