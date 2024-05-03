@@ -65,7 +65,7 @@ function EditModal({ refetch }) {
     description: yup.string().min(5).required("Required"),
     image: yup.string().required("Required"),
     category: yup.string().required("Required"),
-    price: yup.number().required("Required"),
+    price: yup.number().positive().required("Required"),
   });
 
   const {
